@@ -1,13 +1,17 @@
-"use client"; // Required for hooks in Next.js (App Router)
+"use client"; // Required for hooks in Next.js App Router
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function LanguageSwitcher() {
   const router = useRouter();
+  const pathname = usePathname(); // Get current path
 
   const changeLanguage = (locale: string) => {
-    const currentPath = window.location.pathname;
-    router.push(`/${locale}${currentPath}`);
+    // Remove existing locale ("/en", "/fr") from pathname
+    const newPath = pathname.replace(/^\/(en|fr)/, "");
+    
+    // Navigate to the correct language version
+    router.push(`/${locale}${newPath}`);
   };
 
   return (
